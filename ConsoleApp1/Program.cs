@@ -3,7 +3,7 @@
 
 using System.Globalization;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Hello, World!!!");
     Console.WriteLine("Pole powiezchni : " + PolePowierzchni(PobranieWartosci()));
 
 static bool CzyPoprawnyTrojkat(double[] boki)
