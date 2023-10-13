@@ -1,43 +1,63 @@
-// See https://aka.ms/new-console-template for more information
-
-
-using System.Globalization;
-
-Console.WriteLine("Hello, World!!!");
-    Console.WriteLine("Pole powiezchni : " + PolePowierzchni(PobranieWartosci()));
-
-static bool CzyPoprawnyTrojkat(double[] boki)
+namespace trojkat
 {
-    if (
-        boki[0] + boki[1] <= boki[2]
-        || boki[0] + boki[2] <= boki[1]
-        || boki[1] + boki[2] <= boki[0]
-        )
+    class Program
     {
-        Console.WriteLine("Z tych bokow nie mozna utworzyc trojka!\nSproboj jeszcze raz");
-        return false;
-    }
-    return true;
-}
-static double[] PobranieWartosci()
-{
-    double[] boki = new double[3];
-    do
-    {
-        for (int i = 0; i < 3; i++)
+        static void Main(string[] args)
         {
-            Console.Write($"Podaj {i + 1}. bok trojkata : ");
-            while (!double.TryParse(Console.ReadLine(), out boki[i]) || boki[i]<=0)
-                Console.WriteLine("Niepoprawna wartość! ");
+            bool is_correct = false;
+            do
+            {
+                Console.WriteLine("Podaj długość pierwszego boku : ");
+                double a;
+                while (!double.TryParse(Console.ReadLine(), out a) || a <= 0)
+                {
+                    Console.WriteLine("Nieprawidłowe dane");
+                }
+                Console.WriteLine("Podaj długość drugiego boku : ");
+                double b;
+                while (!double.TryParse(Console.ReadLine(), out b) || b <= 0)
+                {
+                    Console.WriteLine("Nieprawidłowe dane");
+                }
+                Console.WriteLine("Podaj długość trzeciego boku : ");
+                double c;
+                while (!double.TryParse(Console.ReadLine(), out c) || c <= 0)
+                {
+                    Console.WriteLine("Nieprawidłowe dane");
+                }
+
+
+                if (IsTriangle(a, b, c))
+                {
+                    
+                    double area = CalculateArea(a, b, c);
+                    Console.OutputEncoding=System.Text.Encoding.Unicode;
+                    Console.Write($"Pole trójkąta o bokach {a}, {b}, {c} wynosi ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"{area:F5}cm²");
+                    Console.ResetColor();
+                    is_correct = true;
+                    Console.OutputEncoding=System.Text.Encoding.Default;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nPodane długośći boków nie utworzą trójkąta");
+                    Console.ResetColor();
+                    Thread.Sleep(1700);
+                    Console.Clear();
+                }
+
+            } while (!is_correct);
+            static bool IsTriangle(double a, double b, double c)
+            {
+                return a + b > c && b + c > a && c + a > b;
+            }
+            static double CalculateArea(double a, double b, double c)
+            {
+                double p = (a + b + c) / 2;
+                return Math.Sqrt(p * (p - a) * (p - b) * (p - c));
+            }
         }
-    } while (!CzyPoprawnyTrojkat(boki));
-    return boki;
+    }
 }
-
-static double PolePowierzchni(double[] boki)
-{
-    double p = ((boki[0] + boki[1] + boki[2]) / 2.0);
-    return Math.Sqrt(p * (p - boki[0]) * (p - boki[1]) * (p - boki[2]));
-}
-
-
